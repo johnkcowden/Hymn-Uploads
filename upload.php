@@ -1,61 +1,58 @@
 <?php
 
+require 'vendor/autoload.php';
+
+$bucket = 'choir.jhpinder.com';
+$keyname = 'secret_hymn_uploads/';
+
 $s3 = new Aws\S3\S3Client([
-'version'     => 'latest',
-'region'      => 'us-east-1',
-'profile'     => 'secondProfile'
+    'version'     => 'latest',
+    'region'      => 'us-east-1',
+    'profile'     => 'secondProfile'
 ]);
 
 $vidFile = $_FILES['video'];
-echo __LINE__ . "\n";
-exit();
 
-if (isset($vidFile)) {
-
+if (!isset($vidFile)) { 
+  echo __LINE__ . PHP_EOL; 
+}
 $errors= array();
-echo __LINE__;
-$file_name = $vidFile['name'];
-echo __LINE__;
-$file_size =$vidFile['size'];
-echo __LINE__;
-$file_tmp =$vidFile['tmp_name'];
-echo __LINE__;
+$file_name = $vidFile['name']; 
+$file_size =$vidFile['size']; 
+$file_tmp =$vidFile['tmp_name']; 
 $file_type=$vidFile['type'];
-echo __LINE__;
-$tmpFileExt = explode('.', $file_name);
-echo __LINE__;
-$file_ext=strtolower(end($tmpFileExt));
-echo __LINE__;
-$hymn = $_POST['hymn'];
-echo __LINE__;
+
+$tmpFileExt = explode('.', $file_name); 
+$file_ext=strtolower(end($tmpFileExt)); 
+$hymn = $_POST['hymn']; 
 $fullname = $_POST['fullname'];
-echo __LINE__;
-$date = date("Y-m-d-H-i-s");
-echo __LINE__;
-$file_name_final = "hymn_" . $hymn . "_" . $fullname . "_";
-echo __LINE__;
-$file_name_final = $file_name_final . $date . "." . $file_ext;
-echo __LINE__;
-$vidFile['name'] = $file_name_final;
+$disallowed = array(" ", ".","/", "\\", "\,");
+//$fullname = str_replace($disallowed, "", $fullname);
+$date = date("Y-m-d-H-i-s"); 
+$file_name_final = "hymn_" . $hymn . "_" . $fullname . "_"; 
+$keyname = $keyname . $file_name_final . $date . "." . $file_ext;
 
-echo $vidFile['name'];
-exit();
-if($file_size > 1073741824){
-$errors[]='File must not be larger than 1GB';
+if ($file_size > 1073741824){
+  $errors[]='File must not be larger than 1GB';
 }
 
+$toUpload = base64_encode(file_get_contents($vidFile));
 
+echo $toUpload . PHP_EOL;
+echo $fullname . PHP_EOL;
+print_r($_FILES);
 if (empty($errors)) {
-try {
-   // Upload data.
-   $result = $s3->putObject([
-       'Bucket' => $bucket,
-       'Key'    => $keyname,
-       'Body'   => $vidFile
-   ]);
-} catch (S3Exception $e) {
-echo $e->getMessage();
-}
-
+  try {
+    // Upload data.
+    echo __LINE__ . PHP_EOL; 
+    $result = $s3->putObject([
+        'Bucket' => $bucket,
+        'Key'    => $keyname,
+        'Body'   => $toUpload
+    ]);
+    echo __LINE__ . PHP_EOL; 
+  } catch (Aws\S3\Exception\S3Exception $e) {
+    echo $e->getMessage();
+  }
 }
 ?>
