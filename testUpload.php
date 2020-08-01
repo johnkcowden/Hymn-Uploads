@@ -1,5 +1,5 @@
 <?php
-require 'vendor/autoload.php';
+require '/home/ec2-user/composer/vendor/autoload.php';
 
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
@@ -8,8 +8,9 @@ $bucket = 'choir.jhpinder.com';
 $keyname = 'secret_hymn_uploads/testfile';
 
 $s3 = new S3Client([
-   'version' => 'latest',
-   'region'  => 'us-east-1'
+   'version'     => 'latest',
+   'region'      => 'us-east-1',
+   'profile'     => 'secondProfile'
 ]);
 
 try {
@@ -17,8 +18,7 @@ try {
    $result = $s3->putObject([
        'Bucket' => $bucket,
        'Key'    => $keyname,
-       'Body'   => 'Hello, world!',
-       'ACL'    => 'public-read'
+       'Body'   => 'Hello, world!'
    ]);
 
    // Print the URL to the object.
