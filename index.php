@@ -17,8 +17,8 @@
       //    $errors[]="extension not allowed, please choose a .mov or a .mp4 file";
       // }
 
-      if($file_size > 5000000000){
-         $errors[]='File must not be larger than 5GB';
+      if($file_size > 1073741824){
+         $errors[]='File must not be larger than 1GB';
       }
 
       if(empty($errors)==true){
