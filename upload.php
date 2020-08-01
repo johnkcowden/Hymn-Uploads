@@ -36,9 +36,6 @@ if ($file_size > 1073741824){
   $errors[]='File must not be larger than 1GB';
 }
 
-$toUpload = base64_encode(file_get_contents($vidFile));
-
-echo $toUpload . PHP_EOL;
 echo $fullname . PHP_EOL;
 print_r($_FILES);
 if (empty($errors)) {
@@ -48,7 +45,7 @@ if (empty($errors)) {
     $result = $s3->putObject([
         'Bucket' => $bucket,
         'Key'    => $keyname,
-        'Body'   => $toUpload
+        'SourceFile'   => $file_tmp
     ]);
     echo __LINE__ . PHP_EOL; 
   } catch (Aws\S3\Exception\S3Exception $e) {
