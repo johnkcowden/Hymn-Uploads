@@ -1,35 +1,65 @@
 <?php
-   if(isset($_FILES['video'])){
-      $errors= array();
-      $file_name = $_FILES['video']['name'];
-      $file_size =$_FILES['video']['size'];
-      $file_tmp =$_FILES['video']['tmp_name'];
-      $file_type=$_FILES['video']['type'];
-      $tmpFileExt = explode('.', $file_name);
-      $file_ext=strtolower(end($tmpFileExt));
-      $hymn = $_POST['hymn'];
-      $fullname = $_POST['fullname'];
-      $file_name_final = "hymn_" . $hymn . "_" . $fullname . "." . $file_ext;
 
-      $extensions= array("mov", "mp4", "m4a", "mp3", "wav");
+  require '/home/ec2-user/composer/vendor/autoload.php';
 
-      // if(in_array($file_ext,$extensions)=== false){
-      //    $errors[]="extension not allowed, please choose a .mov or a .mp4 file";
-      // }
+  use Aws\S3\S3Client;
+  use Aws\S3\Exception\S3Exception;
 
-      if($file_size > 1073741824){
-         $errors[]='File must not be larger than 1GB';
-      }
+  $bucket = 'choir.jhpinder.com';
+  $keyname = 'secret_hymn_uploads/testfile';
 
-      if(empty($errors)==true){
-          move_uploaded_file($file_tmp,'secret_hymn_uploads/' . $file_name_final);
-          //copy($file_tmp, 'C:/DFUMC');
-          echo "Success! Uploaded your file for hymn " . $hymn . ". Thanks " . $fullname . "!";
+  $s3 = new S3Client([
+    'version'     => 'latest',
+    'region'      => 'us-east-1',
+    'profile'     => 'secondProfile'
+  ]);
 
-      }else{
-         //print_r($errors);
-      }
-   }
+/*
+  File upload section
+*/
+$vidFile = $_FILES['video'];
+  if(isset($vidFile)){
+    $errors= array();
+    $file_name = $vidFile['name'];
+    $file_size =$vidFile['size'];
+    $file_tmp =$vidFile['tmp_name'];
+    $file_type=$vidFile['type'];
+    $tmpFileExt = explode('.', $file_name);
+    $file_ext=strtolower(end($tmpFileExt));
+    $hymn = $_POST['hymn'];
+    $fullname = $_POST['fullname'];
+    $date = date("Y-m-d-H-i-s");
+    $file_name_final = "hymn_" . $hymn . "_" . $fullname . "_";
+    $file_name_final = $file_name_final . $date . "." . $file_ext;
+    $vidFile['name'] = $file_name_final;
+
+    echo $vidFile['name'];
+
+    if($file_size > 1073741824){
+      $errors[]='File must not be larger than 1GB';
+    }
+
+
+    if (empty($errors)) {
+      try {
+         // Upload data.
+         $result = $s3->putObject([
+             'Bucket' => $bucket,
+             'Key'    => $keyname,
+             'Body'   => $vidFile
+         ]);
+    } catch (S3Exception $e) {
+      echo $e->getMessage();
+    }
+
+
+    // if(empty($errors)==true){
+    //   move_uploaded_file($file_tmp,'secret_hymn_uploads/' . $file_name_final);
+    //   echo "Success! Uploaded your file for hymn " . $hymn . ". Thanks " . $fullname . "!";
+    // } else {
+    //   echo "Failed to upload file! Contact James at jhpinder@gmail.com for guidance.";
+    // }
+  }
 ?>
 <html>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minumum-scale=.5">
