@@ -25,7 +25,8 @@
           move_uploaded_file($file_tmp,'secret_hymn_uploads/' . $file_name_final);
           //copy($file_tmp, 'C:/DFUMC');
           echo "Success! Uploaded your file for hymn " . $hymn . ". Thanks " . $fullname . "!";
-
+          $msg = "Received upload from " . $fullname . ": " . $file_name_final . ", size: " . $file_size;
+          $msg = wordwrap($msg, 70);
       }else{
          //print_r($errors);
       }
