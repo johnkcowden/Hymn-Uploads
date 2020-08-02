@@ -55,16 +55,23 @@ font-size: 18;
 
   <form action="upload.php" method="POST" enctype="multipart/form-data" >
 
-   <input type="file" name="video" accept="video/*,audio/*" value="Choose Video"/><br><br>
+   <input type="file" name="video" required="required" accept="video/*,audio/*" value="Choose Video"/><br><br>
 
-   <label for="hymn">Hymn Number:</label><br>
-   <input type="text" name="hymn" id="hymn" style="font-size: 16; width: 150px"/><br><br>
+   <p>Hymn Number:</p>
+   <!--<input type="text" name="hymn" id="hymn" style="font-size: 16; width: 150px"/><br><br>
+-->
+   <input type="radio" required="required" name="hymn" id="hymn" value="140" checked/>
+   <label for="hymn">140</label><br><br>
+   <input type="radio" required="required" name="hymn" id="hymn" value="390"/>
+   <label for="hymn">390</label><br><br>
+   <input type="radio" required="required" name="hymn" id="hymn" value="548"/>
+   <label for="hymn">548</label><br><br><br>
 
    <label for="fullname">Your Name:</label><br>
-   <input type="text" name="fullname" style="font-size: 16; width: 150px">
+   <input type="text" name="fullname" maxlength="30" required="required" style="font-size: 16; width: 150px">
 
    <br><br><br>
-   <input type="submit" value="Submit Video"/>
+   <input type="submit" onclick="this.form.submit();this.disabled = true" value="Submit Video"/>
  </form>
 
 </body>
