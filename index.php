@@ -60,12 +60,12 @@ font-size: 18;
    <p>Hymn Number:</p>
    <!--<input type="text" name="hymn" id="hymn" style="font-size: 16; width: 150px"/><br><br>
 -->
-   <input type="radio" required="required" name="hymn" id="hymn0" value="140" checked/>
-   <label for="hymn0">140</label><br><br>
-   <input type="radio" required="required" name="hymn" id="hymn1" value="390"/>
-   <label for="hymn1">390</label><br><br>
-   <input type="radio" required="required" name="hymn" id="hymn2" value="548"/>
-   <label for="hymn2">548</label><br><br><br>
+   <input type="radio" required="required" name="hymn" id="hymn0" value="152" checked/>
+   <label for="hymn0">152</label><br><br>
+   <input type="radio" required="required" name="hymn" id="hymn1" value="474"/>
+   <label for="hymn1">474</label><br><br>
+   <input type="radio" required="required" name="hymn" id="hymn2" value="593"/>
+   <label for="hymn2">593</label><br><br><br>
 
    <label for="fullname">Your Name:</label><br>
    <input type="text" name="fullname" maxlength="30" required="required" style="font-size: 16; width: 150px">
