@@ -42,7 +42,11 @@ font-size: 18;
 
 
 </style>
-<title>DFUMC Virtual Choir</title>
+<head>
+  <title>DFUMC Virtual Choir</title>
+  <link rel = "icon" href = "umhLogoWhite.png"
+  type = "image/x-icon">
+</head>
 <body>
 
 <h1>DFUMC Virtual Choir<br>Hymn Upload</h1>
