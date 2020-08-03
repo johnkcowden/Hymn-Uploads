@@ -5,11 +5,32 @@
   <link rel = "icon" href = "umhLogoWhite.png"
   type = "image/x-icon">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<style media="screen">
+.list-group-item {
+  border-width: thin;
+  border-color: grey;
+  border-top: thin !important;
+  border-top-style: solid !important;
+  border-top-color: grey !important;
+}
+.list-group-item.active {
+     background-color: #add6ff;
+     color: black;
+     border-color: blue;
+     border-top-color: blue !important;
+}
+.navbar {
+  background-color: #696969 !important;
+}
+.bg-dark-1 {
+  color: black !important;
+}
 
+</style>
 </head>
-<body>
+<body onload="updateList()">
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="#">DFUMC Virtual Choir</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -27,48 +48,43 @@
   </div>
 </nav>
 
-<div class="container jumbotron mt-2">
+<!--<div style="background-image: linear-gradient(#d3d3d3, #9e9e9e)">-->
+
+<div class="container jumbotron mb-2 mt-2">
   <h1 class="display-4">Hymn Uploader</h1>
   <hr class="my-4">
-  <p class="lead">Step 1: Choose file. If you are on an iPhone or iPad, tap "Choose file" below, tap on the Photo Library button,
-    find your video, select it, and wait until the "Compressing Video..." is complete. It will return you to this page once complete. <br><br>
-    Step 2: Fill out hymn number and your name. <br><br>
-    Step 3: Submit video and wait until it says "Success" at the top of the page. It may take a minute or two to upload the video.
-  </p>
+  <ul class="lead">
+    <li>Step 1: Choose file. If you are on an iPhone or iPad, tap "Choose file" below, tap on the Photo Library button,
+      find your video, select it, and wait until the "Compressing Video..." is complete. It will return you to this page once complete.
+    </li>
+    <li>
+      Step 2: Fill out hymn number and your name.
+    </li>
+    <li>
+      Step 3: Submit video and wait until it says "Success" at the top of the page. It may take a minute or two to upload the video.
+    </li>
+  </ul>
 </div>
 
-<div class="container">
-  <form action="upload.php" method="POST" enctype="multipart/form-data" >
+<div class="container p-0">
+  <form action="testUpload.php" method="POST" enctype="multipart/form-data" id="fileSubmit">
 
-   <input type="file" name="video" required="required" accept="video/*,audio/*" value="Choose Video"/><br><br>
+  <ul class="list-group bg-light p-3 row-d-flex">
+    <div class="display-4 pb-4">Select Hymn:</div>
+    <li class="list-group-item col-12 col-md-6 mb-3 mt-1 p-3 rounded-lg border-top active" id="152">Hymn 152 - Choir</li>
+    <li class="list-group-item col-12 col-md-6 mb-3 mt-1 p-3 rounded-lg border-top" id="474">Hymn 474 - Quartet</li>
+    <li class="list-group-item col-12 col-md-6 mb-1 mt-1 p-3 rounded-lg border-top" id="593">Hymn 593 - Solo</li>
+  </ul>
 
-   <p>Hymn Number:</p>
 
-   <div class="form-group row">
-     <label class="radio">
-       <input required="required" type="radio" name="hymn" checked> Hymn 152 - Choir
-     </label>
-   </div>
-   <div class="form-group row">
-     <label class="radio">
-       <input required="required" type="radio" name="hymn"> Hymn 474 - Quartet
-     </label>
-   </div>
-   <div class="form-group row">
-     <label class="radio">
-       <input required="required" type="radio" name="hymn"> Hymn 593 - Solo
-     </label>
-   </div>
 
 
    <label for="fullname">Your Name:</label><br>
    <input type="text" placeholder="Name" name="fullname" maxlength="30" required="required" style="font-size: 16; width: 150px">
-
-   <br><br><br>
+   <input required="required" type="hidden" name="hymn">
+  <input type="file" class="form-control-file" name="video" required="required" accept="video/*,audio/*" value="Choose Video"/><br><br>
    <input type="submit" onclick="this.form.submit();this.disabled = true" value="Submit Video"/>
  </form>
-
-
 
 </div>
 
@@ -78,5 +94,28 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+function updateList() {
+  var items = document.getElementsByClassName("list-group-item active");
+  $('[name=hymn]').val(items[0].id);
+};
+
+$(function(){
+      $('.list-group li').click(function(e) {
+          e.preventDefault()
+          $that = $(this);
+          $that.parent().find('li').removeClass('active list-group-item-primary');
+          $that.addClass('active list-group-item-primary');
+          updateList();
+      });
+  })
+
+
+
+</script>
+
+
 </body>
 </html>
