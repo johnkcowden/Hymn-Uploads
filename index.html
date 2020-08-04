@@ -59,9 +59,7 @@
     </div>
   </nav>
 
-  <!--<div style="background-image: linear-gradient(#d3d3d3, #9e9e9e)">-->
-
-  <div class="container bg-light-1 rounded-lg py-3 my-2">
+  <div class="container bg-light-1 rounded-lg py-2 px-3 my-2">
     <h1 class="display-5">Hymn Uploader</h1>
     <hr class="my-4">
     <ol class="list-numbered">
@@ -72,7 +70,7 @@
         find your video, select it, and wait until the "Compressing Video..." is complete. It will return you to this page once complete.
       </li>
       <li>
-        Submit video and wait until it says "Success" at the top of the page. It may take a minute or two to upload the video.
+        Upload video and wait until completes the upload. It may take a minute or two to upload the video.
       </li>
     </ol>
   </div>
@@ -80,15 +78,15 @@
   <div class="container p-0">
     <form class="needs-validation" action="testUpload.php" method="POST" enctype="multipart/form-data" id="fileSubmit" novalidate>
 
-      <ul class="list-group bg-light-1 rounded-lg p-3 mb-2 row-d-flex">
-        <div class="display-6 pb-4">Select hymn:</div>
+      <ul class="list-group bg-light-1 rounded-lg py-2 px-3 mb-2 row-d-flex">
+        <div class="display-6 pb-2">Select hymn:</div>
         <li class="list-group-item col-md-3 my-2 p-3 rounded-lg border-top active" id="152">Hymn 152 - Choir</li>
         <li class="list-group-item col-md-3 my-2 p-3 rounded-lg border-top" id="474">Hymn 474 - Quartet</li>
         <li class="list-group-item col-md-3 my-2 p-3 rounded-lg border-top" id="593">Hymn 593 - Solo</li>
       </ul>
 
 
-      <div class="container bg-light-1 mb-2 p-3 rounded-lg">
+      <div class="container bg-light-1 mb-2 py-2 px-3 rounded-lg">
         <div class="display-6 pb-3">Type your name:</div>
         <input class="form-control form-control-lg" type="text" placeholder="Name" name="fullname" id="name" maxlength="30" required>
         <div class="invalid-feedback">
@@ -96,7 +94,7 @@
         </div>
       </div>
 
-      <div class="container bg-light-1 mb-3 p-3 rounded-lg">
+      <div class="container bg-light-1 mb-3 py-2 px-3 rounded-lg">
         <div class="display-6 pb-3">Select your video:</div>
 
         <input type="hidden" name="hymn">
@@ -107,12 +105,12 @@
             Please select a video.
           </div>
         </div>
-        <button type="submit" class="display-6 col-12 form-control-lg btn btn-primary">Upload</button>
+        <button type="submit" class="display-6 col-12 form-control-lg btn btn-primary" id="submitButton">
+          Upload
+          <span class="spinner-border" role="status" hidden id="spin"></span>
+        </button>
       </div>
-
-
     </form>
-
   </div>
 
 
@@ -167,10 +165,11 @@
         });
       }, false);
     })();
+
+    function updateUpload() {
+      document.getElementById('spin').removeClass('hidden');
+    }
   </script>
-
-
-
 
 </body>
 
