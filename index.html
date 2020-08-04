@@ -1,0 +1,176 @@
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<head>
+  <title>DFUMC Virtual Choir</title>
+  <link rel="icon" href="umhLogoWhite.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <style media="screen">
+    .list-group-item {
+      border-width: thin;
+      border-color: grey;
+      border-top: thin !important;
+      border-top-style: solid !important;
+      border-top-color: grey !important;
+    }
+
+    .list-group-item.active {
+      background-color: #d1e0ff;
+      color: black;
+      border-color: #2a53f5;
+      border-top-color: #2a53f5 !important;
+    }
+
+    .bg-light-1 {
+      background: #f3f3f3 !important;
+    }
+
+    .display-5 {
+      font-size: 2.5rem;
+      font-weight: 300;
+      line-height: 1.2;
+    }
+
+    .display-6 {
+      font-size: 2.2rem;
+      font-weight: 300;
+      line-height: 1.2;
+    }
+  </style>
+</head>
+
+<body onload="updateList()">
+
+  <nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom mb-3">
+    <a class="navbar-brand" href="#">DFUMC Virtual Choir</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="">Hymn Uploader<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="hymnal">Hymn Sheets</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container bg-light-1 rounded-lg py-2 px-3 my-2">
+    <h1 class="display-5">Hymn Uploader</h1>
+    <hr class="my-4">
+    <ol class="list-numbered">
+      <li class="pb-2">
+        Select hymn number and type in your name.
+      </li>
+      <li class="pb-2">Choose file. If you are on an iPhone or iPad, tap "Choose file" below, tap on the Photo Library button,
+        find your video, select it, and wait until the "Compressing Video..." is complete. It will return you to this page once complete.
+      </li>
+      <li>
+        Upload video and wait until completes the upload. It may take a minute or two to upload the video.
+      </li>
+    </ol>
+  </div>
+
+  <div class="container p-0">
+    <form class="needs-validation" action="upload.php" method="POST" enctype="multipart/form-data" id="fileSubmit" novalidate>
+
+      <ul class="list-group bg-light-1 rounded-lg py-2 px-3 mb-2 row-d-flex">
+        <div class="display-6 pb-2">Select hymn:</div>
+        <li class="list-group-item col-md-3 my-2 p-3 rounded-lg border-top active" id="152">Hymn 152 - Choir</li>
+        <li class="list-group-item col-md-3 my-2 p-3 rounded-lg border-top" id="474">Hymn 474 - Quartet</li>
+        <li class="list-group-item col-md-3 my-2 p-3 rounded-lg border-top" id="593">Hymn 593 - Solo</li>
+      </ul>
+
+
+      <div class="container bg-light-1 mb-2 py-2 px-3 rounded-lg">
+        <div class="display-6 pb-3">Type your name:</div>
+        <input class="form-control form-control-lg" type="text" placeholder="Name" name="fullname" id="name" maxlength="30" required>
+        <div class="invalid-feedback">
+          Please enter your name.
+        </div>
+      </div>
+
+      <div class="container bg-light-1 mb-3 py-2 px-3 rounded-lg">
+        <div class="display-6 pb-3">Select your video:</div>
+
+        <input type="hidden" name="hymn">
+        <div class="custom-file mb-5">
+          <input type="file" class="custom-file-input p-2" name="video" accept="video/*,audio/*" id="customFile" required>
+          <label class="custom-file-label" for="customFile">Select hymn video...</label>
+          <div class="invalid-feedback">
+            Please select a video.
+          </div>
+        </div>
+        <button type="submit" class="display-6 col-12 form-control-lg btn btn-primary" id="submitButton">
+          Upload
+          <span class="spinner-border" role="status" hidden id="spin"></span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+
+
+  <!-- DO NOT TOUCH!!!!! -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+    // hymn chooser
+    function updateList() {
+      var items = document.getElementsByClassName("list-group-item active");
+      $('[name=hymn]').val(items[0].id);
+    };
+
+    // hymn chooser
+    $(function() {
+      $('.list-group li').click(function(e) {
+        e.preventDefault()
+        $that = $(this);
+        $that.parent().find('li').removeClass('active list-group-item-primary');
+        $that.addClass('active list-group-item-primary');
+        updateList();
+      });
+    })
+
+    // form vaildation
+
+
+    // choose file
+    $('.custom-file-input').on('change', function() {
+      let fileName = $(this).val().split('\\').pop();
+      $(this).siblings('.custom-file-label').addClass('selected').html(fileName);
+    });
+
+    // Disable form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Get the forms we want to add validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+
+    function updateUpload() {
+      document.getElementById('spin').removeClass('hidden');
+    }
+  </script>
+
+</body>
+
+</html>
