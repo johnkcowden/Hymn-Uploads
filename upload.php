@@ -21,6 +21,7 @@ $s3 = new S3Client([
 
 if ($_FILES['video']['size'] == 0) {
   echo "Error occurred, please try selecting and uploading your file again. If this problem persists, contact James at jhpinder@gmail.com for guidance.";
+  exit();
 }
 
 
