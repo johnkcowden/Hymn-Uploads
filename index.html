@@ -49,7 +49,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
+        <li class="nav-item disabled">
           <a class="nav-link" href="">Hymn Uploader<span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
@@ -76,7 +76,7 @@
   </div>
 
   <div class="container p-0">
-    <form class="needs-validation" action="upload.php" method="POST" enctype="multipart/form-data" id="fileSubmit" novalidate>
+    <form action="upload.php" method="POST" enctype="multipart/form-data" id="fileSubmit" novalidate>
 
       <ul class="list-group bg-light-1 rounded-lg py-2 px-3 mb-2 row-d-flex">
         <div class="display-6 pb-2">Select hymn:</div>
@@ -85,14 +85,25 @@
         <li class="list-group-item col-md-3 my-2 p-3 rounded-lg border-top" id="593">Hymn 593 - Solo</li>
       </ul>
 
-
       <div class="container bg-light-1 mb-2 py-2 px-3 rounded-lg">
         <div class="display-6 pb-3">Type your name:</div>
-        <input class="form-control form-control-lg" type="text" placeholder="Name" name="fullname" id="name" maxlength="30" required>
+        <input class="form-control form-control-lg" type="text" placeholder="Name" name="fullname" id="name" required>
         <div class="invalid-feedback">
           Please enter your name.
         </div>
       </div>
+
+      <div class="container bg-light-1 mb-2 py-2 px-3 rounded-lg">
+        <div class="display-6 pb-3">Type the password:</div>
+        <input class="form-control form-control-lg" type="password" placeholder="Password" name="fullname" id="pwd" required>
+        <div class="alert alert-danger mt-3 mb-2 d-none" id="wrongPass" role="alert">
+          Incorrect password, please try again.
+        </div>
+        <div class="progress mt-3 mb-2 d-none">
+          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+        </div>
+      </div>
+
 
       <div class="container bg-light-1 mb-3 py-2 px-3 rounded-lg">
         <div class="display-6 pb-3">Select your video:</div>
@@ -110,6 +121,8 @@
           <span class="spinner-border" role="status" hidden id="spin"></span>
         </button>
       </div>
+
+      <!-- <button onclick="toggleTest()" type="button" name="button">toggle</button> -->
     </form>
   </div>
 
@@ -119,7 +132,9 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
+  <script src="hidden/hash.js"></script>
   <script type="text/javascript">
     // hymn chooser
     function updateList() {
@@ -147,28 +162,119 @@
       $(this).siblings('.custom-file-label').addClass('selected').html(fileName);
     });
 
-    // Disable form submissions if there are invalid fields
-    (function() {
-      'use strict';
-      window.addEventListener('load', function() {
-        // Get the forms we want to add validation styles to
-        var forms = document.getElementsByClassName('needs-validation');
-        // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function(form) {
-          form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-          }, false);
-        });
-      }, false);
-    })();
+    //Disable form submissions
+    // if there are invalid fields
+    //   (function() {
+    //     'use strict';
+    //     window.addEventListener('load', function() {
+    //       // Get the forms we want to add validation styles to
+    //       var forms = document.getElementsByClassName('needs-validation');
+    //       // Loop over them and prevent submission
+    //       var validation = Array.prototype.filter.call(forms, function(form) {
+    //         form.addEventListener('submit', function(event) {
+    //           var pwdcheck = checkPwd();
+    //           if (!pwdcheck) {
+    //             event.preventDefault();
+    //             event.stopPropagation();
+    //           }
+    //           if (!pwdcheck) {
+    //             var pwdElement = document.getElementById("pwd")
+    //             pwdElement.classList.add("is-invalid");
+    //             alert(pwdElement.classList);
+    //           }
+    //         }, false);
+    //       });
+    //     }, false);
+    //   })();
+
+    document.getElementById("submitButton").classList.add("disabled");
+    //$("#wrongPass").addClass("d-none");
+
+    var nameVar = document.getElementById("name");
+    var isValidName = nameVar.checkValidity();
+    var passVar = document.getElementById("pwd");
+    var isValidPass = passVar.checkValidity();
+    var fileVar = document.getElementById("customFile");
+    var isValidFile = fileVar.checkValidity();
+    var formVar = document.getElementById('fileSubmit');
+
+
+    formVar.addEventListener('submit', function(event) {
+      isValidPass = passVar.checkValidity();
+      isValidName = nameVar.checkValidity();
+      isValidFile = fileVar.checkValidity();
+      if (isValidFile && isValidName && isValidPass) {
+        if (!checkPwd()) {
+          event.preventDefault();
+          event.stopPropagation();
+          document.getElementById("submitButton").classList.add("disabled");
+          $("#wrongPass").removeClass("d-none");
+          passVar.value = "";
+        } else {
+          $("#wrongPass").addClass("d-none");
+        }
+      } else {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    });
+
+
+    nameVar.addEventListener('keyup', function(event) {
+      isValidName = nameVar.checkValidity();
+      isValidPass = passVar.checkValidity();
+      isValidFile = fileVar.checkValidity();
+      if (!isValidName) {
+        document.getElementById("submitButton").classList.add("disabled");
+      } else {
+        if (isValidPass && isValidFile) {
+          document.getElementById("submitButton").classList.remove("disabled");
+        }
+      }
+    });
+
+    passVar.addEventListener('keyup', function(event) {
+      isValidPass = passVar.checkValidity();
+      isValidName = nameVar.checkValidity();
+      isValidFile = fileVar.checkValidity();
+      if (!isValidPass) {
+        document.getElementById("submitButton").classList.add("disabled");
+      } else {
+        $("#wrongPass").addClass("d-none");
+        if (isValidName && isValidFile) {
+          document.getElementById("submitButton").classList.remove("disabled");
+        }
+      }
+    });
+
+    fileVar.addEventListener('change', function(event) {
+      isValidFile = fileVar.checkValidity();
+      isValidName = nameVar.checkValidity();
+      isValidPass = passVar.checkValidity();
+      if (!isValidFile) {
+        document.getElementById("submitButton").classList.add("disabled");
+      } else {
+        $("#wrongPass").addClass("d-none");
+        if (isValidName && isValidPass)
+          document.getElementById("submitButton").classList.remove("disabled");
+      }
+    });
+
+
+
+    function checkPwd() {
+      var inputPass = document.getElementById('pwd').value;
+      var passhash = CryptoJS.MD5(inputPass).toString();
+      return passhash == pwdHash;
+    }
 
     function updateUpload() {
       document.getElementById('spin').removeClass('hidden');
     }
+
+    // function toggleTest() {
+    //   $("#wrongPass").removeClass("d-none");
+    // }
   </script>
 
 </body>

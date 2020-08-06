@@ -1,11 +1,13 @@
 <?php
 
-require 'hidden/keys.php';
-require 'vendor/autoload.php';
+// require 'hidden/keys.php';
+// require 'vendor/autoload.php';
 
-use Aws\S3\S3Client;
-use Aws\S3\Exception\S3Exception;
+//use Aws\S3\S3Client;
+//use Aws\S3\Exception\S3Exception;
 
+print_r($_FILES['video']);
+exit();
 $bucket = 'choir.jhpinder.com';
 $keyname = 'secret_hymn_uploads/';
 
