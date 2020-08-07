@@ -116,15 +116,15 @@
         </div>
     </form>
 
-  </div>
 
-  <button type"button" class="display-6 col-12 form-control-lg btn btn-primary" value="UPLOAD" id="submitButton">
+  <div class="progress mt-3 mb-3 d-none" id="progressbar">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" id="uploadProgress" role="progressbar" style="width: 0%"></div>
+  </div>
+  </div>
+  <button type"button" class="display-6 col-12 mb-4 form-control-lg btn btn-primary" value="UPLOAD" id="submitButton">
     Upload
     <!-- <span class="spinner-border d-none" role="status" id="spin"></span> -->
   </button>
-  <div class="progress mt-3 mb-2 d-none" id="progressbar">
-    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
-  </div>
 
 
 <!--  <button id="testbutton">toggle</button>-->
@@ -219,6 +219,32 @@
       }
 
       $.ajax({
+        xhr: function() {
+          var xhr = new window.XMLHttpRequest();
+            //Upload progress
+          xhr.upload.addEventListener("progress", function(evt){
+          if (evt.lengthComputable) {
+            var percentComplete = evt.loaded / evt.total;
+            //Do something with upload progress
+            //console.log(percentComplete);
+            percentComplete = percentComplete * 100;
+            var width = parseFloat(percentComplete).toFixed(0) + "%";
+            console.log("width: " + width);
+            $("#uploadProgress").css("width", width);
+            $("#submitButton").html("Uploading: " + width);
+          }
+        }, false);
+        //Download progress
+        xhr.addEventListener("progress", function(evt){
+          if (evt.lengthComputable) {
+            var percentComplete = evt.loaded / evt.total;
+            //Do something with download progress
+            console.log(percentComplete);
+          }
+        }, false);
+          return xhr;
+        },
+
         url: "upload.php",
         method: "post",
         processData: false,
