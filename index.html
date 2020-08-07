@@ -127,7 +127,7 @@
   </div>
 
 
-  <button id="testbutton">toggle</button>
+<!--  <button id="testbutton">toggle</button>-->
   </div>
 
 
@@ -163,31 +163,6 @@
       $(this).siblings('.custom-file-label').addClass('selected').html(fileName);
     });
 
-    //Disable form submissions
-    // if there are invalid fields
-    //   (function() {
-    //     'use strict';
-    //     window.addEventListener('load', function() {
-    //       // Get the forms we want to add validation styles to
-    //       var forms = document.getElementsByClassName('needs-validation');
-    //       // Loop over them and prevent submission
-    //       var validation = Array.prototype.filter.call(forms, function(form) {
-    //         form.addEventListener('submit', function(event) {
-    //           var pwdcheck = checkPwd();
-    //           if (!pwdcheck) {
-    //             event.preventDefault();
-    //             event.stopPropagation();
-    //           }
-    //           if (!pwdcheck) {
-    //             var pwdElement = document.getElementById("pwd")
-    //             pwdElement.classList.add("is-invalid");
-    //             alert(pwdElement.classList);
-    //           }
-    //         }, false);
-    //       });
-    //     }, false);
-    //   })();
-
     document.getElementById("submitButton").classList.add("disabled");
     //$("#wrongPass").addClass("d-none");
 
@@ -200,6 +175,7 @@
     var formVar = document.getElementById('fileSubmit');
 
     var isAuthenticated = false;
+    var dist = 0;
 
     $('#submitButton').click(async function(event) {
       // Get all the forms elements and their values in one step
@@ -214,7 +190,7 @@
 
       console.log(Date.now());
       await checkPwd($('#pwd').val());
-      setTimeout(checkAuthAndSend, 500);
+      //setTimeout(checkAuthAndSend, 500);
     });
 
     function checkAuthAndSend() {
@@ -249,10 +225,10 @@
         contentType: false,
         data: data,
         success: function(data) {
-          //$('body').html(data);
+          $('body').html(data);
         },
         error: function(e) {
-          //$('body').html(e);
+          $('body').html(e);
         }
       });
       isAuthenticated = false;
@@ -261,40 +237,16 @@
     }
 
 
-    // formVar.addEventListener('submit', async function(event) {
-    //   isValidPass = passVar.checkValidity();
-    //   isValidName = nameVar.checkValidity();
-    //   isValidFile = fileVar.checkValidity();
-    //   if (isValidFile && isValidName && isValidPass) {
-    //     console.log("checkPwd: " + isAuthenticated);
-    //     console.log(Date.now());
-    //     await checkPwd($('#pwd').val());
-    //
-    //     if (!isAuthenticated) {
-    //       alert("not authenticated");
-    //       event.preventDefault();
-    //       event.stopPropagation();
-    //       document.getElementById("submitButton").classList.add("disabled");
-    //       $("#wrongPass").removeClass("d-none");
-    //       passVar.value = "";
-    //     } else {
-    //       $("#wrongPass").addClass("d-none");
-    //     }
-    //   } else {
-    //     alert("in else");
-    //     event.preventDefault();
-    //     event.stopPropagation();
-    //   }
-    // });
-
     async function checkPwd(passToCheck) {
       var getParams = 'pwd=';
       getParams = getParams.concat(passToCheck);
-      $.get("hidden/hashes.php", getParams, "json")
+      $.get("hashes.php", getParams, "json")
         .done(function(data) {
           var reply = $.parseJSON(data);
           isAuthenticated = reply.authenticated;
-        });
+         // $('body').html(data);
+         checkAuthAndSend();
+       });
     };
 
     nameVar.addEventListener('keyup', function(event) {
@@ -338,7 +290,8 @@
     });
 
     $("#testbutton").click(function() {
-      $("#spin").removeClass("d-none")
+      $("#spin").removeClass("d-none");
+      $("#name").val(dist);
     });
 
 

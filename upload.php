@@ -27,19 +27,26 @@ if ($_FILES['video']['size'] == 0) {
   exit();
 }
 
-// echo "got past file check, name is " . $_POST['fullname'] . PHP_EOL;
+//echo "got past file check, name is " . $_POST['fullname'] . PHP_EOL;
 // print_r($_FILES['video']);
-// exit();
+//echo $_POST['hymn'];
+
+//exit();
 
 $vidFile = $_FILES['video'];
 $errors= array();
-$file_name = $vidFile['name'];
-$file_size =$vidFile['size'];
-$file_tmp =$vidFile['tmp_name'];
-$file_type=$vidFile['type'];
+$file_name = $vidFile['name'][0];
+$file_size =$vidFile['size'][0];
+$file_tmp =$vidFile['tmp_name'][0];
+$file_type=$vidFile['type'][0];
 
 $tmpFileExt = explode('.', $file_name);
 $file_ext=strtolower(end($tmpFileExt));
+
+$permitted_ext = array('mov', 'mp4', 'mp3', '.wav', 'm4a');
+
+
+
 $hymn = preg_replace('/[^0-9]/', '', $_POST['hymn']);
 $fullname = $_POST['fullname'];
 $fullCleanName = preg_replace('/[^A-Za-z0-9\-]/', '', $fullname);
