@@ -80,9 +80,9 @@
 
       <ul class="list-group bg-light-1 rounded-lg py-2 px-3 mb-2 row-d-flex">
         <div class="display-6 pb-2">Select hymn:</div>
-        <li class="list-group-item col-md-3 my-2 p-3 rounded-lg border-top active" id="152">Hymn 152 - Choir</li>
-        <li class="list-group-item col-md-3 my-2 p-3 rounded-lg border-top" id="474">Hymn 474 - Quartet</li>
-        <li class="list-group-item col-md-3 my-2 p-3 rounded-lg border-top" id="593">Hymn 593 - Solo</li>
+        <li class="list-group-item col-lg-3 my-2 p-3 rounded-lg border-top active" id="140">Hymn 140 - Choir</li>
+        <li class="list-group-item col-lg-3 my-2 p-3 rounded-lg border-top" id="548">Hymn 548 - Quartet</li>
+        <!-- <li class="list-group-item col-md-3 my-2 p-3 rounded-lg border-top" id="390">Hymn 390 - Solo</li> -->
       </ul>
 
       <div class="container bg-light-1 mb-2 py-2 px-3 rounded-lg">
@@ -99,9 +99,7 @@
         <div class="alert alert-danger mt-3 mb-2 d-none" id="wrongPass" role="alert">
           Incorrect password, please try again.
         </div>
-        <div class="progress mt-3 mb-2 d-none">
-          <div class="progress-bar progress-bar-striped progress-bar-animated" id="progressbar" role="progressbar" style="width: 100%"></div>
-        </div>
+
       </div>
 
 
@@ -109,8 +107,8 @@
         <div class="display-6 pb-3">Select your video:</div>
 
         <input type="hidden" name="hymn">
-        <div class="custom-file mb-5">
-          <input type="file" class="custom-file-input p-2" name="video" accept="video/*,audio/*" id="customFile">
+        <div class="custom-file mb-3">
+          <input type="file" class="custom-file-input mb-0 p-2" name="video" accept="video/*,audio/*" id="customFile">
           <label class="custom-file-label" for="customFile">Select hymn video...</label>
           <div class="invalid-feedback">
             Please select a video.
@@ -120,10 +118,13 @@
 
   </div>
 
-  <button type"button" class="display-6 col-12 form-control-lg btn btn-primary" id="submitButton">
+  <button type"button" class="display-6 col-12 form-control-lg btn btn-primary" value="UPLOAD" id="submitButton">
     Upload
-    <span class="spinner-border d-none" role="status" id="spin"></span>
+    <!-- <span class="spinner-border d-none" role="status" id="spin"></span> -->
   </button>
+  <div class="progress mt-3 mb-2 d-none" id="progressbar">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+  </div>
 
 
   <button id="testbutton">toggle</button>
@@ -248,14 +249,15 @@
         contentType: false,
         data: data,
         success: function(data) {
-          $('body').html(data);
+          //$('body').html(data);
         },
         error: function(e) {
-          $('body').html(e);
+          //$('body').html(e);
         }
       });
       isAuthenticated = false;
       $("#progressbar").removeClass("d-none");
+      $("#submitButton").html("Uploading...");
     }
 
 
