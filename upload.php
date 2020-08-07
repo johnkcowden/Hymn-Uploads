@@ -77,7 +77,7 @@ if (empty($errors)) {
 
 <head>
 <title>DFUMC Virtual Choir</title>
-<link rel="icon" href="umhLogoWhite.png" type="image/x-icon">
+<link rel="icon" href="umhLogoSmall.png" type="image/x-icon">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <style media="screen">
 .bg-light-1 {
