@@ -1,13 +1,12 @@
 <?php
 
-// require 'hidden/keys.php';
-// require 'vendor/autoload.php';
+require 'hidden/keys.php';
+require 'vendor/autoload.php';
 
-//use Aws\S3\S3Client;
-//use Aws\S3\Exception\S3Exception;
+use Aws\S3\S3Client;
+use Aws\S3\Exception\S3Exception;
 
-print_r($_FILES['video']);
-exit();
+
 $bucket = 'choir.jhpinder.com';
 $keyname = 'secret_hymn_uploads/';
 
@@ -26,6 +25,9 @@ if ($_FILES['video']['size'] == 0) {
   exit();
 }
 
+// echo "got past file check, name is " . $_POST['fullname'] . PHP_EOL;
+// print_r($_FILES['video']);
+// exit();
 
 $vidFile = $_FILES['video'];
 $errors= array();

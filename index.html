@@ -100,7 +100,7 @@
           Incorrect password, please try again.
         </div>
         <div class="progress mt-3 mb-2 d-none">
-          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+          <div class="progress-bar progress-bar-striped progress-bar-animated" id="progressbar" role="progressbar" style="width: 100%"></div>
         </div>
       </div>
 
@@ -226,14 +226,36 @@
         return;
       }
       $("#wrongPass").addClass("d-none");
-      var fileInputElement = $("#customFile");
-      var formData = new FormData();
-      formData.append("fullname", nameVar.value);
-      formData.append("hymn", $('[name=hymn]').val());
-      //formData.append("video", fileInputElement.files[0]);
-      formdata = formData.serialize();
-      $.post("upload.php", formData);
+
+
+      var data = new FormData();
+      //Form data
+      var form_data = $('#fileSubmit').serializeArray();
+      $.each(form_data, function(key, input) {
+        data.append(input.name, input.value);
+      });
+
+      //File data
+      var file_data = $('input[name="video"]')[0].files;
+      for (var i = 0; i < file_data.length; i++) {
+        data.append("video[]", file_data[i]);
+      }
+
+      $.ajax({
+        url: "upload.php",
+        method: "post",
+        processData: false,
+        contentType: false,
+        data: data,
+        success: function(data) {
+          $('body').html(data);
+        },
+        error: function(e) {
+          $('body').html(e);
+        }
+      });
       isAuthenticated = false;
+      $("#progressbar").removeClass("d-none");
     }
 
 
