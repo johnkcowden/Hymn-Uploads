@@ -1,10 +1,13 @@
 <?php
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require 'hidden/keys.php';
 require 'vendor/autoload.php';
 
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
+
 
 $bucket = 'choir.jhpinder.com';
 $keyname = 'secret_hymn_uploads/';
@@ -24,16 +27,26 @@ if ($_FILES['video']['size'] == 0) {
   exit();
 }
 
+//echo "got past file check, name is " . $_POST['fullname'] . PHP_EOL;
+// print_r($_FILES['video']);
+//echo $_POST['hymn'];
+
+//exit();
 
 $vidFile = $_FILES['video'];
 $errors= array();
-$file_name = $vidFile['name'];
-$file_size =$vidFile['size'];
-$file_tmp =$vidFile['tmp_name'];
-$file_type=$vidFile['type'];
+$file_name = $vidFile['name'][0];
+$file_size =$vidFile['size'][0];
+$file_tmp =$vidFile['tmp_name'][0];
+$file_type=$vidFile['type'][0];
 
 $tmpFileExt = explode('.', $file_name);
 $file_ext=strtolower(end($tmpFileExt));
+
+$permitted_ext = array('mov', 'mp4', 'mp3', '.wav', 'm4a');
+
+
+
 $hymn = preg_replace('/[^0-9]/', '', $_POST['hymn']);
 $fullname = $_POST['fullname'];
 $fullCleanName = preg_replace('/[^A-Za-z0-9\-]/', '', $fullname);
@@ -64,7 +77,7 @@ if (empty($errors)) {
 
 <head>
 <title>DFUMC Virtual Choir</title>
-<link rel="icon" href="umhLogoWhite.png" type="image/x-icon">
+<link rel="icon" href="umhLogoSmall.png" type="image/x-icon">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <style media="screen">
 .bg-light-1 {
