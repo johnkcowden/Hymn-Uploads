@@ -52,9 +52,11 @@
         <li class="nav-item disabled">
           <a class="nav-link" href="">Hymn Uploader<span class="sr-only">(current)</span></a>
         </li>
+        <!--
         <li class="nav-item">
           <a class="nav-link" href="hymnal">Hymn Sheets</a>
         </li>
+        -->
       </ul>
     </div>
   </nav>
@@ -215,7 +217,11 @@
               var width = parseFloat(percentComplete).toFixed(0) + "%";
               console.log("width: " + width);
               $("#uploadProgress").css("width", width);
-              $("#submitButton").html("Uploading: " + width);
+              if (percentComplete >= 99.5) {
+                $("#submitButton").html("Finalizing...");
+              } else {
+                $("#submitButton").html("Uploading: " + width);
+              }
             }
           }, false);
           xhr.addEventListener("progress", function(evt) {
