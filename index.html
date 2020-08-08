@@ -117,17 +117,15 @@
     </form>
 
 
-  <div class="progress mt-3 mb-3 d-none" id="progressbar">
-    <div class="progress-bar progress-bar-striped progress-bar-animated" id="uploadProgress" role="progressbar" style="width: 0%"></div>
-  </div>
+    <div class="progress mt-3 mb-3 d-none" id="progressbar">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" id="uploadProgress" role="progressbar" style="width: 0%"></div>
+    </div>
   </div>
   <button type"button" class="display-6 col-12 mb-4 form-control-lg btn btn-primary" value="UPLOAD" id="submitButton">
     Upload
     <!-- <span class="spinner-border d-none" role="status" id="spin"></span> -->
   </button>
 
-
-<!--  <button id="testbutton">toggle</button>-->
   </div>
 
 
@@ -154,9 +152,6 @@
       });
     })
 
-    // form vaildation
-
-
     // choose file
     $('.custom-file-input').on('change', function() {
       let fileName = $(this).val().split('\\').pop();
@@ -164,7 +159,6 @@
     });
 
     document.getElementById("submitButton").classList.add("disabled");
-    //$("#wrongPass").addClass("d-none");
 
     var nameVar = document.getElementById("name");
     var isValidName = nameVar.checkValidity();
@@ -178,24 +172,16 @@
     var dist = 0;
 
     $('#submitButton').click(async function(event) {
-      // Get all the forms elements and their values in one step
-      // var values = $(this).serialize();
-
       isValidPass = passVar.checkValidity();
       isValidName = nameVar.checkValidity();
       isValidFile = fileVar.checkValidity();
       if (!isValidFile || !isValidName || !isValidPass) {
         return;
       }
-
-      console.log(Date.now());
       await checkPwd($('#pwd').val());
-      //setTimeout(checkAuthAndSend, 500);
     });
 
     function checkAuthAndSend() {
-      console.log("checkPwd: " + isAuthenticated);
-      console.log(Date.now());
       if (!isAuthenticated) {
         document.getElementById("submitButton").classList.add("disabled");
         $("#wrongPass").removeClass("d-none");
@@ -221,27 +207,22 @@
       $.ajax({
         xhr: function() {
           var xhr = new window.XMLHttpRequest();
-            //Upload progress
-          xhr.upload.addEventListener("progress", function(evt){
-          if (evt.lengthComputable) {
-            var percentComplete = evt.loaded / evt.total;
-            //Do something with upload progress
-            //console.log(percentComplete);
-            percentComplete = percentComplete * 100;
-            var width = parseFloat(percentComplete).toFixed(0) + "%";
-            console.log("width: " + width);
-            $("#uploadProgress").css("width", width);
-            $("#submitButton").html("Uploading: " + width);
-          }
-        }, false);
-        //Download progress
-        xhr.addEventListener("progress", function(evt){
-          if (evt.lengthComputable) {
-            var percentComplete = evt.loaded / evt.total;
-            //Do something with download progress
-            console.log(percentComplete);
-          }
-        }, false);
+          //Upload progress
+          xhr.upload.addEventListener("progress", function(evt) {
+            if (evt.lengthComputable) {
+              var percentComplete = evt.loaded / evt.total;
+              percentComplete = percentComplete * 100;
+              var width = parseFloat(percentComplete).toFixed(0) + "%";
+              console.log("width: " + width);
+              $("#uploadProgress").css("width", width);
+              $("#submitButton").html("Uploading: " + width);
+            }
+          }, false);
+          xhr.addEventListener("progress", function(evt) {
+            if (evt.lengthComputable) {
+              var percentComplete = evt.loaded / evt.total;
+            }
+          }, false);
           return xhr;
         },
 
@@ -270,9 +251,8 @@
         .done(function(data) {
           var reply = $.parseJSON(data);
           isAuthenticated = reply.authenticated;
-         // $('body').html(data);
-         checkAuthAndSend();
-       });
+          checkAuthAndSend();
+        });
     };
 
     nameVar.addEventListener('keyup', function(event) {
@@ -319,34 +299,6 @@
       $("#spin").removeClass("d-none");
       $("#name").val(dist);
     });
-
-
-
-    // $("#testbutton").click(function() {
-    //   var getParams = 'pwd=';
-    //   getParams = getParams.concat('dfumc2020upload00');
-    //   var result = $.get("hidden/hashes.php", getParams, "json")
-    //     .done(function(data) {
-    //       alert("second success");
-    //       //var tmpVar = $.parseJSON(data);
-    //       alert(data);
-    //     })
-    //     .fail(function() {
-    //       alert("error");
-    //     })
-    //     .always(function() {
-    //       alert("finished");
-    //     });
-    //   alert(result[0]);
-    // });
-    //alert(reply);
-    //reply = JSON.parse(reply);
-    //alert(reply.result);
-
-
-    // function toggleTest() {
-    //   $("#wrongPass").removeClass("d-none");
-    // }
   </script>
 
 </body>
