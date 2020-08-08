@@ -112,9 +112,11 @@ background: #f3f3f3 !important;
 <li class="nav-item">
 <a class="nav-link" href="..">Hymn Uploader</a>
 </li>
+<!--
 <li class="nav-item">
 <a class="nav-link" href="../hymnal">Hymn Sheets</a>
 </li>
+-->
 </ul>
 </div>
 </nav>
