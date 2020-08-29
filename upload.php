@@ -9,8 +9,8 @@ use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
 
 
-$bucket = 'choir.jhpinder.com';
-$keyname = 'secret_hymn_uploads/';
+$bucket = 'virtual.oakgrovemusic.org';
+$keyname = 'hymn_uploads/';
 
 $s3 = new S3Client([
     'version'     => 'latest',
