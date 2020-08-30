@@ -124,7 +124,7 @@ background: #f3f3f3 !important;
 
 <div class="container py-3 my-3">
 <div class="display-6">Thanks for uploading!</div><p>
-    <a href="http://virtual.oakgrovemusic.org">Click to upload another file.</a>    
+    <a href="https://uploads.oakgrovemusic.org">Click to upload another file.</a>    
 </div>
 
 <!-- DO NOT TOUCH!!!!! -->
