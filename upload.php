@@ -23,7 +23,7 @@ $s3 = new S3Client([
 
 
 if ($_FILES['video']['size'] == 0) {
-  echo "Error occurred, please try selecting and uploading your file again. If this problem persists, contact James at jhpinder@gmail.com for guidance.";
+  echo "Error occurred, please try selecting and uploading your file again. If this problem persists, contact John at jcowden@ogumc.org for guidance.";
   exit();
 }
 
@@ -76,7 +76,7 @@ if (empty($errors)) {
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <head>
-<title>DFUMC Virtual Choir</title>
+<title>Oak Grove Virtual Choir</title>
 <link rel="icon" href="umhLogoSmall.png" type="image/x-icon">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <style media="screen">
@@ -102,7 +102,7 @@ background: #f3f3f3 !important;
 
 
 <nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom mb-3">
-<a class="navbar-brand" href="#">DFUMC Virtual Choir</a>
+<a class="navbar-brand" href="#">Oak Grove Virtual Choir</a>
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 <span class="navbar-toggler-icon"></span>
 </button>
@@ -123,7 +123,8 @@ background: #f3f3f3 !important;
 
 
 <div class="container py-3 my-3">
-<div class="display-6">Thanks for uploading!</div>
+<div class="display-6">Thanks for uploading!</div><p>
+    <a href="https://virtual.oakgrovemusic.org">Click to upload another file.</a>    
 </div>
 
 <!-- DO NOT TOUCH!!!!! -->
