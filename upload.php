@@ -51,7 +51,7 @@ $hymn = preg_replace('/[^0-9]/', '', $_POST['hymn']);
 $fullname = $_POST['fullname'];
 $fullCleanName = preg_replace('/[^A-Za-z0-9\-]/', '', $fullname);
 $date = date("Y-m-d-H-i-s");
-$file_name_final = "hymn_" . $hymn . "_" . $fullCleanName . "_";
+$file_name_final = $hymn . "_" . $fullCleanName . "_";
 $keyname = $keyname . $file_name_final . $date . "." . $file_ext;
 
 if ($file_size > 1073741824){
