@@ -110,7 +110,7 @@ background: #f3f3f3 !important;
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
 <ul class="navbar-nav mr-auto">
 <li class="nav-item">
-<a class="nav-link" href="..">Hymn Uploader</a>
+<a class="nav-link" href="..">Uploader</a>
 </li>
 <!--
 <li class="nav-item">
