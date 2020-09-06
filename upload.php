@@ -47,7 +47,7 @@ $permitted_ext = array('mov', 'mp4', 'mp3', '.wav', 'm4a');
 
 
 
-$hymn = preg_replace('/[^0-9]/', '', $_POST['hymn']);
+$hymn = preg_replace('/[^A-Za-z0-9\-]/', '',  $_POST['hymn'] ); 
 $fullname = $_POST['fullname'];
 $fullCleanName = preg_replace('/[^A-Za-z0-9\-]/', '', $fullname);
 $date = date("Y-m-d-H-i-s");
